@@ -1,7 +1,5 @@
-# Use an official Python runtime as a parent image
 FROM python:3.10
 
-# Set the working directory to /app
 WORKDIR /app
 
 # Copy the current directory contents into the container at /app
@@ -17,8 +15,10 @@ RUN apt-get update && apt-get install -y \
     libopenblas-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Compile the binaries using the Makefile
-RUN make LLAMA_OPENBLAS=1 LLAMA_CLBLAST=1
+# Create a models directory and download the Hugging Face model to it
+RUN mkdir models
+RUN pip install torch torchvision transformers
+RUN python -c "from transformers import AutoTokenizer, AutoModelForCausalLM; tokenizer = AutoTokenizer.from_pretrained('TheBloke/Wizard-Vicuna-13B-Uncensored-GPTQ'); model = AutoModelForCausalLM.from_pretrained('TheBloke/Wizard-Vicuna-13B-Uncensored-GPTQ'); model.save_pretrained('models/Wizard-Vicuna-13B-Uncensored-GPTQ')"
 
 # Make port 80 available to the world outside this container
 EXPOSE 80

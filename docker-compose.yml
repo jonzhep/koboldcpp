@@ -8,4 +8,4 @@ services:
     ports:
       - '8080:80'
     image: 'koboldcpp:latest'
-    command: [ "/app/models/gpt4-x-vicuna-13B.ggml.q5_1.bin", "80" ]
+    command: [ "/app/koboldcpp.py", "--model_path", "/app/models/Wizard-Vicuna-13B-Uncensored-GPTQ", "--port", "80" ]
