@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  koboldcpp:
+    container_name: koboldcpp
+    restart: always
+    volumes:
+      - './models:/app/models'
+    ports:
+      - '8080:80'
+    image: 'koboldcpp:latest'
+    command: [ "/app/models/gpt4-x-vicuna-13B.ggml.q5_1.bin", "80" ]
